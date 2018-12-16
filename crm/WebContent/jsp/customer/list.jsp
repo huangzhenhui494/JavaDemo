@@ -10,11 +10,21 @@
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
-
-
+<script type="text/javascript">
+	$(function(){
+			//  找用户选择的级别customer
+			//	层级选择器
+			$("#level option[value='<s:property value="cust_level.dict_id"/>']").prop("selected",true);
+			//  找用户选择的来源customer
+			$("#source option[value='<s:property value="cust_source.dict_id"/>']").prop("selected",true);
+			//  找用户选择的来源customer
+			$("#industry option[value='<s:property value="cust_industry.dict_id"/>']").prop("selected",true);
+	})
+</script>
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
+<s:debug></s:debug>
 	<FORM id="customerForm" name="customerForm"
 		action="${pageContext.request.contextPath }/customer_conditionFind.action"
 		method=post>
@@ -54,7 +64,7 @@
 												<TR>
 													<TD>客户名称：</TD>
 													<TD><INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="cust_name"></TD>
+														style="WIDTH: 80px" maxLength=50 name="cust_name" value="<s:property value="cust_name"/>"></TD>
 														
 													<td>客户级别:</td>
 													<td>
@@ -62,7 +72,7 @@
 																<option value="-1">---请选择---</option>
 															<s:iterator value="levelList" var="baseDict"> 
 																<!-- 每次的iterator都会把baseDict放在context中,所以要# -->
-																<option value="<s:property value="#baseDict.dict_id"/>">
+																<option class="level" value="<s:property value="#baseDict.dict_id"/>">
 																	<s:property value="#baseDict.dict_item_name"/>
 																</option>
 															</s:iterator>
@@ -70,7 +80,7 @@
 													</td>
 													<td>客户来源:</td>
 													<td>
-														<select name="cust_source.dict_id" style="WIDTH: 180px">
+														<select id="source" name="cust_source.dict_id" style="WIDTH: 180px">
 																<option value="-1">---请选择---</option>
 															<s:iterator value="sourceList" var="baseDict"> 
 																<option value="<s:property value="#baseDict.dict_id"/>">
@@ -81,7 +91,7 @@
 													</td>
 													<TD>客户所属行业:</TD>
 													<TD>
-														<select name="cust_industry.dict_id" style="WIDTH: 180px">
+														<select id="industry" name="cust_industry.dict_id" style="WIDTH: 180px">
 																<option value="-1">---请选择---</option>
 															<s:iterator value="industryList" var="baseDict"> 
 																<option value="<s:property value="#baseDict.dict_id"/>">
@@ -136,7 +146,7 @@
 														<s:property value="#customer.cust_mobile"/>
 													</TD>
 													<TD>
-													<a href="${pageContext.request.contextPath }/jsp/customer/edit.jsp">修改</a>
+													<a href="${pageContext.request.contextPath}/customer_updateUI.action">修改</a>
 													&nbsp;&nbsp;
 													<a href="#">删除</a>
 													</TD>

@@ -4,3 +4,12 @@
 2:重定向
 
 3:<!-- 每次的iterator都会把baseDict放在context中,所以要# -->
+
+4:$(function(){
+			//  找用户选择的级别customer
+			//	层级选择器
+			$("#level option[value='<s:property value="cust_level.dict_id"/>']").prop("selected",true);
+			//  找用户选择的来源customer
+			$("#source option[value='<s:property value="cust_source.dict_id"/>']").prop("selected",true);
+			//  找用户选择的来源customer
+			$("#industry option[value='<s:property value="cust_industry.dict_id"/>']").prop("selected",true);
