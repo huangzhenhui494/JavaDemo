@@ -13,3 +13,24 @@
 			$("#source option[value='<s:property value="cust_source.dict_id"/>']").prop("selected",true);
 			//  找用户选择的来源customer
 			$("#industry option[value='<s:property value="cust_industry.dict_id"/>']").prop("selected",true);
+			
+5:删除时候要看有没有外键
+
+
+6:		//	获取离线对象
+		DetachedCriteria dc = DetachedCriteria.forClass(Customer.class); // 默认语法,相当于from Customer
+		//	做条件 where cust_name like?
+		dc.add(Restrictions.like("cust_name", "%"+customer.getCust_name()+"%"));
+		//此时Dao中的语句也会变化,就是where. . .
+		//	当没有请选择的时候,才添加条件
+		if(customer.getCust_level().getDict_id() != -1) {
+			dc.add(Restrictions.eq("cust_level.dict_id", customer.getCust_level().getDict_id()));
+		}
+		//	当没有请选择的时候,才添加条件
+		if(customer.getCust_source().getDict_id() != -1) {
+			dc.add(Restrictions.eq("cust_source.dict_id", customer.getCust_source().getDict_id()));
+		}
+		//	当没有请选择的时候,才添加条件
+		if(customer.getCust_industry().getDict_id() != -1) {
+			dc.add(Restrictions.eq("cust_industry.dict_id", customer.getCust_industry().getDict_id()));
+		}
