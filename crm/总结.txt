@@ -1,0 +1,6 @@
+注意的点:
+1:<option value=<s:property value="#baseDict.dict_id"/>>
+
+2:重定向
+
+3:<!-- 每次的iterator都会把baseDict放在context中,所以要# -->
