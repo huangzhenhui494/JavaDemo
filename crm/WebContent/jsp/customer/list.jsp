@@ -20,6 +20,13 @@
 			//  找用户选择的来源customer
 			$("#industry option[value='<s:property value="cust_industry.dict_id"/>']").prop("selected",true);
 	})
+	
+	function deleteConfirm(value){
+		var flag = window.confirm("确定要删除吗?");
+		if(flag){
+			location.href="${pageContext.request.contextPath}/customer_delete.action?cust_id="+value;
+		}
+	}
 </script>
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
@@ -146,9 +153,9 @@
 														<s:property value="#customer.cust_mobile"/>
 													</TD>
 													<TD>
-													<a href="${pageContext.request.contextPath}/customer_updateUI.action">修改</a>
+													<a href="${pageContext.request.contextPath}/customer_updateUI.action?cust_id=<s:property value="#customer.cust_id"/>">修改</a>
 													&nbsp;&nbsp;
-													<a href="#">删除</a>
+													<a onclick="deleteConfirm('<s:property value="#customer.cust_id"/>')" href="#">删除</a>
 													</TD>
 												</TR>
 												</s:iterator>

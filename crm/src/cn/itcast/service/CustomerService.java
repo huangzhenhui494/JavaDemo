@@ -21,4 +21,10 @@ public interface CustomerService {
 
 	List<Customer> conditionFind(DetachedCriteria dc);
 
+	Customer findById(Integer cust_id);
+
+	void update(Customer customer);
+
+	void delete(Customer customer);
+
 }

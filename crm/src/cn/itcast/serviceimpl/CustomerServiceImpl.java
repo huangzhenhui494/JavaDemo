@@ -49,4 +49,20 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.conditionFind(dc);
 	}
 
+	@Override
+	public Customer findById(Integer cust_id) {
+		return customerDao.findById(cust_id);
+	}
+
+	@Override
+	public void update(Customer customer) {
+		customerDao.update(customer);
+	}
+
+	@Override
+	public void delete(Customer customer) {
+		customerDao.delete(customer);
+	}
+
+
 }

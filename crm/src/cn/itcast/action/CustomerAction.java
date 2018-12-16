@@ -10,6 +10,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -35,7 +36,7 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		return customer;
 	}
 	
-	//	以下代码是客户功能实现代码
+	//以下代码是客户功能实现代码
 	//查询所有的级别数据
 	private List<BaseDict> levelList;
 	//查询的所有的来源数据
@@ -43,6 +44,11 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	//查询的所有的行业数据
 	private List<BaseDict> industryList;
 	//get方法,方便它直接拿着我们的数据放在值栈里
+	//cust_id查询Customer,回显
+	private Customer customerById;
+	//查询所有的客户信息
+	private List<Customer> customerList;
+	
 	public List<BaseDict> getLevelList() {
 		return levelList;
 	}
@@ -52,11 +58,11 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	public List<BaseDict> getIndustryList() {
 		return industryList;
 	}
-	
-	//查询所有的客户信息
-	private List<Customer> customerList;
 	public List<Customer> getCustomerList() {
 		return customerList;
+	}
+	public Customer getCustomerById() {
+		return customerById;
 	}
 	/**
 	 * 新增客户页面功能
@@ -169,6 +175,59 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		return "tolist"; //	此时的list页面没有下拉框的内容,返回增加信息
 	}
 	
+	/**
+	 * 修改功能的回显
+	 * @return
+	 */
+	@Action(value="customer_updateUI",results= {@Result(name="toedit",location="/jsp/customer/edit.jsp")})
+	public String updateUI() {
+		/*
+		 * 步骤:
+		 * 	1 将来源,行业,级别查出来 带到edit.jsp的下拉框显示
+		 *  2 根据点击客户传递的id 查询该客户的数据 返回customer对象
+		 *  3 需要将对象放在值栈中 带到edit.jsp页面进行数据的回显 
+		 */
+		//1 查询所有客户级别数据 006  返回的是list
+		levelList=customerService.findLevel("006");
+		//2 查询所有信息来源数据 002  返回的是list
+		sourceList=customerService.findSource("002");
+		//3 查询所有所属行业数据 001 返回的是list
+		industryList=customerService.findIndustry("001");
+		
+		//获取页面的cust_id,查询该id对应的customer的数据
+		customerById = customerService.findById(customer.getCust_id());
+		
+		return "toedit";
+	}
 
+	/**
+	 * 确定修改
+	 * @return
+	 */
+	@Action(value="customer_update",results= {@Result(name="toAction",location="customer_list",type="redirectAction")})
+	public String update() {
+		/*
+		 * 步骤:
+		 * 	1 接收页面的对象customer
+		 *  2 通过cust_id查询对象
+		 *  3 更新对象信息
+		 */
+		customerService.update(customer);
+		return "toAction";
+	}
+	
+	/**
+	 * 删除操作
+	 * @return
+	 */
+	@Action(value="customer_delete",results= {@Result(name="toAction",location="customer_list",type="redirectAction")})
+	public String delete() {
+		/*
+		 * 获取要删除的id
+		 * 删除
+		 */
+		customerService.delete(customer);
+		return "toAction";
+	}
 	
 }
