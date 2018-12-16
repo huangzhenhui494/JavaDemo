@@ -34,3 +34,5 @@
 		if(customer.getCust_industry().getDict_id() != -1) {
 			dc.add(Restrictions.eq("cust_industry.dict_id", customer.getCust_industry().getDict_id()));
 		}
+		
+7
