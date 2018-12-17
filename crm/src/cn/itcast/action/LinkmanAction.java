@@ -28,9 +28,14 @@ public class LinkmanAction extends ActionSupport implements ModelDriven<Linkman>
 	private CustomerService customerService;
 	@Autowired
 	private LinkmanService linkmanService;
-
+	
 	//以下代码是客户功能实现代码
 	List<Customer> customerList;
+	//联系人列表
+	List<Linkman> linkmanList; 
+	public List<Linkman> getLinkmanList() {
+		return linkmanList;
+	}
 	public List<Customer> getCustomerList() {
 		return customerList;
 	}
@@ -51,12 +56,26 @@ public class LinkmanAction extends ActionSupport implements ModelDriven<Linkman>
 		return "addUI";
 	}
 	
-	@Action(value="linkman_save")
+	/**
+	 * 添加保存
+	 * @return
+	 */
+	@Action(value="linkman_save",results={@Result(name="toAction",location="linkman_list",type="redirectAction")})
 	public String add() {
 		linkmanService.save(linkman);
-		return null;
+		return "toAction";
 	}
 	
+	@Action(value="linkman_list",results= {@Result(name="tolist",location="/jsp/linkman/list.jsp")})
+	public String list() {
+		/*
+		 * 1 查询所有客户,将所属客户回显到条件查询窗口
+		 * 2 查询所有联系人,将联系人列表显示在页面
+		 */
+		customerList = customerService.findAll();
+		linkmanList = linkmanService.findAll();
+		return "tolist";
+	}
 	
 	
 	

@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -63,7 +64,17 @@
 													<TD>联系人名称：</TD>
 													<TD><INPUT class=textbox id=sChannel2
 														style="WIDTH: 80px" maxLength=50 name="lkmName"></TD>
-													
+													<TD>所属客户：</TD>
+													<td>
+														<select>
+																<option value="-1">---请选择---</option>
+															<s:iterator value="customerList" var="customer">
+																<option value="<s:property value="#customer.cust_id"/>">
+																	<s:property value="#customer.cust_name"/>
+																</option>
+															</s:iterator>
+														</select>
+													</td>
 													<TD><INPUT class=button id=sButton2 type=submit
 														value=" 筛选 " name=sButton2></TD>
 												</TR>
@@ -86,19 +97,20 @@
 													<TD>手机</TD>
 													<TD>操作</TD>
 												</TR>
-												<TR
-													style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-													<TD>张三</TD>
-													<TD>男</TD>
-													<TD>15899865856</TD>
-													<TD>15899865856</TD>
-													
-													<TD>
-													<a href="#">修改</a>
-													&nbsp;&nbsp;
-													<a href="#">删除</a>
-													</TD>
-												</TR>
+												<s:iterator value="linkmanList" var="linkman">
+													<TR
+														style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
+														<TD><s:property value="#linkman.lkm_name"/></TD>
+														<TD><s:property value="#linkman.lkm_gender"/></TD>
+														<TD><s:property value="#linkman.lkm_phone"/></TD>
+														<TD><s:property value="#linkman.lkm_mobile"/></TD>
+														<TD>
+														<a href="#">修改</a>
+														&nbsp;&nbsp;
+														<a href="#">删除</a>
+														</TD>
+													</TR>
+												</s:iterator>
 												
 											</TBODY>
 										</TABLE>

@@ -1,5 +1,7 @@
 package cn.itcast.daoimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,11 @@ public class LinkmanDaoImpl implements LinkmanDao {
 	@Override
 	public void save(Linkman linkman) {
 		hibernateTemplate.save(linkman);
+	}
+
+	@Override
+	public List<Linkman> findAll() {
+		return (List<Linkman>) hibernateTemplate.find("from Linkman");
 	}
 
 }
