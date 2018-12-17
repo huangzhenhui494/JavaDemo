@@ -2,6 +2,7 @@ package cn.itcast.serviceimpl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,23 @@ public class LinkmanServiceImpl implements LinkmanService {
 	}
 
 	@Override
-	public List<Linkman> findAll() {
-		return linkmanDao.findAll();
+	public List<Linkman> findAll(DetachedCriteria dc) {
+		return linkmanDao.findAll(dc);
+	}
+
+	@Override
+	public Linkman findLinkmanById(Long lkm_id) {
+		return linkmanDao.findLinkmanById(lkm_id);
+	}
+
+	@Override
+	public void update(Linkman linkman) {
+		linkmanDao.update(linkman);
+	}
+
+	@Override
+	public void delete(Linkman linkman) {
+		linkmanDao.delete(linkman);
 	}
 
 	

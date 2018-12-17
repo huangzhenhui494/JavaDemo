@@ -9,22 +9,28 @@
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 <SCRIPT language=javascript>
-	function to_page(page){
-		if(page){
-			$("#page").val(page);
+	/* 
+		1.4.4:没有prop attr
+		1.8以上才有prop
+	*/
+	$(function(){
+		$("#show option[value='<s:property value="customer.cust_id"/>']").prop("selected",true);
+	})
+	
+	function deleteConfirm(id){
+			var flag = confirm("亲,确认删除吗?");
+			if(flag){
+				location.href="${pageContext.request.contextPath}/linkman_delete.action?lkm_id="+id;
+			}
 		}
-		document.customerForm.submit();
-		
-	}
 </SCRIPT>
-
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
 	<FORM id="customerForm" name="customerForm"
-		action="${pageContext.request.contextPath }/linkmanServlet?method=list"
+		action="${pageContext.request.contextPath }/linkman_list.action"
 		method=post>
 		
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
@@ -62,11 +68,11 @@
 											<TBODY>
 												<TR>
 													<TD>联系人名称：</TD>
-													<TD><INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="lkmName"></TD>
+													<TD><INPUT value="<s:property value="linkman.lkm_name"/>" class=textbox id=sChannel2
+														style="WIDTH: 80px" maxLength=50 name="lkm_name"></TD>
 													<TD>所属客户：</TD>
 													<td>
-														<select>
+														<select id="show" name="customer.cust_id">
 																<option value="-1">---请选择---</option>
 															<s:iterator value="customerList" var="customer">
 																<option value="<s:property value="#customer.cust_id"/>">
@@ -94,6 +100,7 @@
 													<TD>联系人名称</TD>
 													<TD>性别</TD>
 													<TD>办公电话</TD>
+													<td>所属客户</td>
 													<TD>手机</TD>
 													<TD>操作</TD>
 												</TR>
@@ -103,11 +110,12 @@
 														<TD><s:property value="#linkman.lkm_name"/></TD>
 														<TD><s:property value="#linkman.lkm_gender"/></TD>
 														<TD><s:property value="#linkman.lkm_phone"/></TD>
+														<td><s:property value="#linkman.customer.cust_name"/></td>
 														<TD><s:property value="#linkman.lkm_mobile"/></TD>
 														<TD>
-														<a href="#">修改</a>
+														<a href="${pageContext.request.contextPath}/linkman_updateUI?lkm_id=<s:property value="#linkman.lkm_id"/>">修改</a>
 														&nbsp;&nbsp;
-														<a href="#">删除</a>
+														<a href="#" onclick="deleteConfirm('<s:property value="#linkman.lkm_id"/>')">删除</a>
 														</TD>
 													</TR>
 												</s:iterator>

@@ -22,8 +22,10 @@
 <BODY>
 <s:debug></s:debug>
 <FORM id=form1 name=form1
-		action="${pageContext.request.contextPath}/customer_update.action?cust_id=<s:property value="customerById.cust_id"/>"
+		action="${pageContext.request.contextPath}/customer_update.action"
+		
 		method=post>
+		<input type="hidden" name="cust_id" value="<s:property value="customerById.cust_id"/>">
 		
 
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>

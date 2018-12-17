@@ -1,11 +1,15 @@
 注意的点:
-1:<option value=<s:property value="#baseDict.dict_id"/>>
+1:
+<option value=<s:property value="#baseDict.dict_id"/>>
 
-2:重定向
+2:
+重定向
 
-3:<!-- 每次的iterator都会把baseDict放在context中,所以要# -->
+3:
+<!-- 每次的iterator都会把baseDict放在context中,所以要# -->
 
-4:$(function(){
+4:
+$(function(){
 			//  找用户选择的级别customer
 			//	层级选择器
 			$("#level option[value='<s:property value="cust_level.dict_id"/>']").prop("selected",true);
@@ -14,10 +18,12 @@
 			//  找用户选择的来源customer
 			$("#industry option[value='<s:property value="cust_industry.dict_id"/>']").prop("selected",true);
 			
-5:删除时候要看有没有外键
+5:
+删除时候要看有没有外键
 
 
-6:		//	获取离线对象
+6:		
+//	获取离线对象
 		DetachedCriteria dc = DetachedCriteria.forClass(Customer.class); // 默认语法,相当于from Customer
 		//	做条件 where cust_name like?
 		dc.add(Restrictions.like("cust_name", "%"+customer.getCust_name()+"%"));
@@ -35,5 +41,39 @@
 			dc.add(Restrictions.eq("cust_industry.dict_id", customer.getCust_industry().getDict_id()));
 		}
 		
-7Write operations are not allowed in read-only mode (FlushMode.MANUAL): Turn your Session into FlushMode
+7:
+Write operations are not allowed in read-only mode (FlushMode.MANUAL): Turn your Session into FlushMode
 	大哥你忘记在service层加事务了
+	
+	
+8:
+EOFException报错,重启频繁,把Tomcat中work-CataLina中的locahost给干掉
+
+
+9:
+//  注意,这边如果直接点击联系人列表,没有设置条件的话,会出现空指针异常Customer为空,不能get
+		if(linkman.getCustomer() != null) {
+			if(linkman.getCustomer().getCust_id() != -1) {
+				dc.add(Restrictions.eq("customer.cust_id", linkman.getCustomer().getCust_id()));
+			}
+		}
+		
+10:	
+/* 
+		1.4.4:没有prop attr
+		1.8以上才有prop
+	*/
+	
+	
+11:
+<c:forEach items="${customerList}" var="customer">
+注意这个要$
+
+
+12:		
+<input type="hidden" name="cust_id" value="<s:property value="customerById.cust_id"/>">
+action不能跟问号啊
+
+
+13:
+<input type="radio" value="女" name="lkm_gender" <c:if test="${linkmanById.lkm_gender=='女' }">checked</c:if>>女
