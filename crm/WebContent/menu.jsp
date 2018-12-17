@@ -158,7 +158,7 @@ A.active {
 											<TBODY>
 												<TR>
 													<TD class=menuSmall>
-														<A class=style2 href="${pageContext.request.contextPath }/jsp/linkman/add.jsp" target=main>－ 新增联系人</A></TD>
+														<A class=style2 href="${pageContext.request.contextPath }/linkman_addUI.action" target=main>－ 新增联系人</A></TD>
 												</TR>
 												<TR>
 													<TD class=menuSmall>

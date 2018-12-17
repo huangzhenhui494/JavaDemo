@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,11 +17,10 @@
 
 </HEAD>
 <BODY>
+<s:debug></s:debug>
 	<FORM id=form1 name=form1
-		action="${pageContext.request.contextPath }/linkmanServlet?method=addsubmit"
+		action="${pageContext.request.contextPath }/linkman_save.action"
 		method=post>
-		
-
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -51,9 +51,12 @@
 							<tr>
 								<td>所属客户：</td>
 								<td colspan="3">
-									<select name="custId" style="WIDTH: 180px">
-										<option value="1">百度</option>
-										<option value="2">谷歌</option>
+									<select name="customer.cust_id" style="WIDTH: 180px">
+										<s:iterator value="customerList" var="customer">
+											<option value="<s:property value="#customer.cust_id"/>">
+												<s:property value="#customer.cust_name"/>
+											</option>
+										</s:iterator>
 									</select>
 								</td>
 							</tr>
@@ -61,24 +64,24 @@
 								<td>联系人名称：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="lkmName">
+														style="WIDTH: 180px" maxLength=50 name="lkm_name">
 								</td>
 								<td>联系人性别：</td>
 								<td>
-								<input type="radio" value="1" name="lkmGender">男
-								<input type="radio" value="2" name="lkmGender">女
+								<input type="radio" value="男" name="lkm_gender">男
+								<input type="radio" value="女" name="lkm_gender">女
 								</td>
 							</TR>
 							<TR>
 								<td>联系人办公电话 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="lkmPhone">
+														style="WIDTH: 180px" maxLength=50 name="lkm_phone">
 								</td>
 								<td>联系人手机 ：</td>
 								<td>
 								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="lkmMobile">
+														style="WIDTH: 180px" maxLength=50 name="lkm_mobile">
 								</td>
 							</TR>
 							<tr>

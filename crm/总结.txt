@@ -35,4 +35,5 @@
 			dc.add(Restrictions.eq("cust_industry.dict_id", customer.getCust_industry().getDict_id()));
 		}
 		
-7
+7Write operations are not allowed in read-only mode (FlushMode.MANUAL): Turn your Session into FlushMode
+	大哥你忘记在service层加事务了

@@ -1,5 +1,8 @@
 package cn.itcast.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +40,10 @@ public class Customer {
 	@ManyToOne(targetEntity=BaseDict.class)
 	@JoinColumn(name="cust_level",referencedColumnName="dict_id")
 	private BaseDict cust_level;		//	'客户级别'
+	
+	//一的一方,不维护外键
+	@OneToMany(mappedBy="customer",targetEntity=Linkman.class)
+	private Set<Linkman> linkmans = new HashSet<Linkman>();
 	
 	public Integer getCust_id() {
 		return cust_id;
