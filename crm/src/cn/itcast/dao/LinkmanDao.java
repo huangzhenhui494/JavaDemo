@@ -18,4 +18,8 @@ public interface LinkmanDao {
 
 	void delete(Linkman linkman);
 
+	int findCount(DetachedCriteria dc);
+
+	List<Linkman> findOnePage(DetachedCriteria dc, int pageIndex, Integer pageSize);
+
 }

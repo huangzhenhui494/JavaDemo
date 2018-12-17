@@ -77,3 +77,9 @@ action不能跟问号啊
 
 13:
 <input type="radio" value="女" name="lkm_gender" <c:if test="${linkmanById.lkm_gender=='女' }">checked</c:if>>女
+
+14:		
+//  添加,修改等页面没有pageNumber
+		if(pageNumber == null) {
+			pageNumber = 1;
+		}

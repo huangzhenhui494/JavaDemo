@@ -25,6 +25,11 @@
 				location.href="${pageContext.request.contextPath}/linkman_delete.action?lkm_id="+id;
 			}
 		}
+	
+	function changePage(pageNumber){
+		$("#pageNumber").val(pageNumber);
+		$("#customerForm").submit();
+	}
 </SCRIPT>
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
@@ -32,7 +37,7 @@
 	<FORM id="customerForm" name="customerForm"
 		action="${pageContext.request.contextPath }/linkman_list.action"
 		method=post>
-		
+		<input type="hidden" name="pageNumber" value="1" id="pageNumber">
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
 				<TR>
@@ -104,7 +109,7 @@
 													<TD>手机</TD>
 													<TD>操作</TD>
 												</TR>
-												<s:iterator value="linkmanList" var="linkman">
+												<s:iterator value="pb.linkmanList" var="linkman">
 													<TR
 														style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
 														<TD><s:property value="#linkman.lkm_name"/></TD>
@@ -129,11 +134,11 @@
 									<TD><SPAN id=pagelink>
 											<DIV
 												style="LINE-HEIGHT: 20px; HEIGHT: 20px; TEXT-ALIGN: right">
-												共[<B>10</B>]条记录,[<B>1</B>]页
+												共[<B><s:property value="pb.dataCount"/></B>]条记录,[<B>${pb.pageNumber}</B>]页
 												
-												[<A href="">前一页</A>]
-												<B>${page}</B>
-												[<A href="">后一页</A>] 
+												[<A href="#" onclick="changePage('${pb.pageNumber-1}')">前一页</A>]
+												<B>${pb.pageNumber}</B>
+												[<A href="#" onclick="changePage('${pb.pageNumber+1}')">后一页</A>] 
 												
 											</DIV>
 									</SPAN></TD>

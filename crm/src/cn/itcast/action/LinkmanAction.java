@@ -17,6 +17,7 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import cn.itcast.domain.Customer;
 import cn.itcast.domain.Linkman;
+import cn.itcast.domain.PageBean;
 import cn.itcast.service.CustomerService;
 import cn.itcast.service.LinkmanService;
 
@@ -31,13 +32,17 @@ public class LinkmanAction extends ActionSupport implements ModelDriven<Linkman>
 	@Autowired
 	private LinkmanService linkmanService;
 	
-	//以下代码是客户功能实现代码
+	//	以下代码是客户功能实现代码
 	List<Customer> customerList;
-	//联系人列表
+	//	联系人列表
 	List<Linkman> linkmanList; 
-	//通过id查询联系人
+	//	通过id查询联系人
 	private Linkman linkmanById;
-	
+	//	分页数据
+	private PageBean<Linkman> pb;
+	public PageBean<Linkman> getPb() {
+		return pb;
+	}
 	public Linkman getLinkmanById() {
 		return linkmanById;
 	}
@@ -48,6 +53,13 @@ public class LinkmanAction extends ActionSupport implements ModelDriven<Linkman>
 		return customerList;
 	}
 	
+	//	分页数据
+	private Integer pageNumber;
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	private Integer pageSize = 3;
 	/**
 	 * 获取保存页面的所属客户列表,跳转到add.jsp
 	 * @return
@@ -74,16 +86,16 @@ public class LinkmanAction extends ActionSupport implements ModelDriven<Linkman>
 		return "toAction";
 	}
 	
-	/**
-	 * linkman列表和条件查询
+/*	*//**
+	 * linkman列表和条件查询 ,不是分页
 	 * @return
-	 */
+	 *//*
 	@Action(value="linkman_list",results= {@Result(name="tolist",location="/jsp/linkman/list.jsp")})
 	public String list() {
-		/*
+		
 		 * 1 查询所有客户,将所属客户回显到条件查询窗口
 		 * 2 查询所有联系人,将联系人列表显示在页面
-		 */
+		 
 		customerList = customerService.findAll();
 		//  针对条件要玩离线查询,默认全查linkmanList = linkmanService.findAll(dc);
 		DetachedCriteria dc = DetachedCriteria.forClass(Linkman.class);
@@ -101,6 +113,39 @@ public class LinkmanAction extends ActionSupport implements ModelDriven<Linkman>
 		//	若点击的是联系人,做默认的语法全查
 		//	点击的是筛选做条件差
 		linkmanList = linkmanService.findAll(dc);
+		return "tolist";
+	}*/
+	
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	@Action(value="linkman_list",results= {@Result(name="tolist",location="/jsp/linkman/list.jsp")})
+	public String list() {
+		
+		customerList = customerService.findAll();
+		//  针对条件要玩离线查询,默认全查linkmanList = linkmanService.findAll(dc);
+		DetachedCriteria dc = DetachedCriteria.forClass(Linkman.class);
+		//	如果是条件查询,添加条件
+		//	通过名字查询
+		if(linkman.getLkm_name() != null) {
+			dc.add(Restrictions.like("lkm_name", "%"+linkman.getLkm_name()+"%"));
+		}
+		//	通过所属客户查询
+		//  注意,这边如果直接点击联系人列表,没有设置条件的话,会出现空指针异常Customer为空,不能get
+		if(linkman.getCustomer() != null && linkman.getCustomer().getCust_id() != -1) {
+			dc.add(Restrictions.eq("customer.cust_id", linkman.getCustomer().getCust_id()));
+		}
+		
+		//	若点击的是联系人,做默认的语法全查
+		//	点击的是筛选做条件差
+		//  添加,修改等页面没有pageNumber
+		if(pageNumber == null) {
+			pageNumber = 1;
+		}
+		
+		pb = linkmanService.findAll(dc,pageNumber,pageSize);
+		// dc:能拿到数据  pageNumber  pageSize
 		return "tolist";
 	}
 	

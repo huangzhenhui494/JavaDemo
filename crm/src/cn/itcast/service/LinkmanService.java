@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 
 import cn.itcast.domain.Linkman;
+import cn.itcast.domain.PageBean;
 
 public interface LinkmanService {
 
@@ -17,5 +18,7 @@ public interface LinkmanService {
 	void update(Linkman linkman);
 
 	void delete(Linkman linkman);
+
+	PageBean<Linkman> findAll(DetachedCriteria dc, Integer pageNumber, Integer pageSize);
 
 }

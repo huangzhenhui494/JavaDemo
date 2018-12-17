@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.dao.LinkmanDao;
 import cn.itcast.domain.Linkman;
+import cn.itcast.domain.PageBean;
 import cn.itcast.service.LinkmanService;
 
 @Service("linkmanService")
@@ -41,6 +42,25 @@ public class LinkmanServiceImpl implements LinkmanService {
 	@Override
 	public void delete(Linkman linkman) {
 		linkmanDao.delete(linkman);
+	}
+
+	@Override
+	public PageBean<Linkman> findAll(DetachedCriteria dc, Integer pageNumber, Integer pageSize) {
+		
+		//	总条数	// dc:可能是全查,也可能带条件的
+		int dataCount = linkmanDao.findCount(dc);
+		// 	创建PageBean();
+		PageBean<Linkman> pb = new PageBean<Linkman>();
+		// set pageNumber和pageSize,获取pageIndex
+		pb.setPageNumber(pageNumber);
+		pb.setPageSize(pageSize);
+		//	显示的数据
+		List<Linkman> linkmanList = linkmanDao.findOnePage(dc,pb.getPageIndex(),pageSize);
+		//	PageBean封装
+		//  封装总条数和list集合
+		pb.setDataCount(dataCount);
+		pb.setLinkmanList(linkmanList);
+		return pb;
 	}
 
 	

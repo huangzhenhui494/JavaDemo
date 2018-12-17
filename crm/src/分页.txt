@@ -1,0 +1,35 @@
+
+固定步骤:
+
+没分页:
+	 返回的是集合
+
+
+有分页:
+	   pageBean
+
+
+PageBean的数据封装:
+	    当前页: pageNumber
+
+	    每页显示的条数: pageSize
+
+	    每页显示的数据  List<Linkman> linkmanList;
+
+	    总条数: totalcount
+
+	    总页数: totalPage
+
+
+DetachedCriteria dc
+
+save(dc)    默认语法:select * from 表
+
+	    修改语法:
+		      dc.setProjection(Projections.rowCount()); select count(*)
+		      dc.setProjection(Projections.max(*)); select max("字段")
+		      ....
+	    只要修改完dc默认语法就成修改的语法了
+
+	    改回初始语法:
+			dc.setProjection(null)
